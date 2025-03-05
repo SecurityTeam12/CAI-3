@@ -34,12 +34,17 @@ api_addr = "https://127.0.0.1:8200"
 
 ## Iniciar Vault
 
-Para iniciar Vault en modo desarrollo, utiliza el siguiente comando:
+Para desplegar Vault, utiliza el siguiente comando:
 
 ```bash
 vault server -config=/path/to/vault.hcl
 ```
+Para iniciar Vault, utiliza el siguiente comando:
 
+```bash
+vault operator init
+```
+Este comando iniciará el Vault y generará las claves dessellado.
 
 
 ## Almacenar fragmentos de la clave
