@@ -7,7 +7,7 @@ Este documento proporciona una guía paso a paso para utilizar HashiCorp Vault p
 Antes de comenzar, asegúrate de tener los siguientes elementos:
 
 - **Vault** instalado y configurado en tu sistema o nube privada.
-- **Algoritmo de Shamir's Secret Sharing** para generar y gestionar los fragmentos de la clave (puedes usar el ejemplo en Python o cualquier implementación que prefieras).
+- **Algoritmo de Shamir's Secret Sharing** para generar y gestionar los fragmentos de la clave.
 - **Acceso administrativo a Vault** para configurar la autenticación y la política de acceso.
 
 ## Configuración de Vault
@@ -18,16 +18,17 @@ Para comenzar a usar Vault, debes configurarlo correctamente. A continuación se
 
 ```
 storage "file" {
-    path = "/path/to/vault/storage"
+  path = "/data/vault"
 }
 
 listener "tcp" {
-    address     = "127.0.0.1:8200"
-    tls_disable = 1
+  address = "0.0.0.0:8200"
+  tls_disable = "false"
+  tls_cert_file = "/path/to/cert.pem"
+  tls_key_file = "/path/to/key.pem"
 }
 
 ui = true
-disable_mlock = true
 api_addr = "https://127.0.0.1:8200"
 ```
 
@@ -65,4 +66,7 @@ vault kv get secret/shamir/fragment1
 vault kv get secret/shamir/fragment2
 ...
 ```
-Se recomienda establecer políticas de acceso a los fragmentos de la clave para garantizar que únicamente los usuarios permitidos puedan acceder a ellas.
+Se recomienda establecer políticas de acceso a los fragmentos de la clave para garantizar que únicamente los usuarios permitidos puedan acceder a ellas
+
+## Notas adicionales
+En el archivo de configuración de ejemplo permite el uso de la interfaz gráfica mediante *ui=true*.
