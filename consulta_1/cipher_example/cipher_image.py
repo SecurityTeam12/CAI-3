@@ -3,25 +3,28 @@ from consulta_2.cifrado_imagenes import cifrar_imagen
 from consulta_1.key_generator.keygen import generate_aes_key
 from consulta_1.shamir.secretSharing import create_shares
 
+
 def main():
     # Generar la clave AES
     aes_key = generate_aes_key()
     
+    
     try:
         # Mostrar la clave generada en formato hexadecimal
         print("Clave AES generada")
-        
+        print(aes_key)
         # Cifrar la imagen
         archivo_imagen = "consulta_2/imagenes_a_cifrar/0002.DCM"
         
                 # Crear las partes compartidas de la clave
-        secret = aes_key.hex()
         total_shares = 5
         threshold = 3
-        shares = create_shares(secret, total_shares, threshold)
+        shares = create_shares(aes_key, total_shares, threshold)
+    
         
-        
-        print("Fragmento de la clave generados")
+        print("Fragmento de la clave generados:")
+        print(shares)
+    
         
         ciphered_image = cifrar_imagen(archivo_imagen, aes_key)
         
