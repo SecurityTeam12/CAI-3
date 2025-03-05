@@ -38,53 +38,60 @@ def descifrar_imagen(archivo_cifrado, clave):
     
     return datos_descifrados
 
-# Crear la carpeta imagenes_a_cifrar dentro de consulta_2 si no existe
-input_dir = "consulta_2/imagenes_a_cifrar"
-if not os.path.exists(input_dir):
-    os.makedirs(input_dir)
-    print(f"Created directory: {input_dir}")
+if __name__ == "__main__":
+    # Crear la carpeta imagenes_a_cifrar dentro de consulta_2 si no existe
+    input_dir = "consulta_2/imagenes_a_cifrar"
+    if not os.path.exists(input_dir):
+        os.makedirs(input_dir)
+        print(f"Created directory: {input_dir}")
 
-# Crear la carpeta imagenes_cifradas dentro de consulta_2 si no existe
-output_dir = "consulta_2/imagenes_cifradas"
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-    print(f"Created directory: {output_dir}")
+    # Crear la carpeta imagenes_cifradas dentro de consulta_2 si no existe
+    output_dir = "consulta_2/imagenes_cifradas"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        print(f"Created directory: {output_dir}")
+        
+    dechipher_dir = "consulta_2/imagenes_descifradas"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        print(f"Created directory: {output_dir}")
 
-# Definir el archivo de entrada (imagen a cifrar)
-archivo_imagen = os.path.join(input_dir, "imagen_original.png")
 
-# Verificar si la imagen existe en imagenes_a_cifrar
-if not os.path.exists(archivo_imagen):
-    print(f"Error: The file '{archivo_imagen}' was not found in {input_dir}.")
-    print(f"Please move 'imagen_original.png' to {input_dir} and try again.")
-    exit(1)
+    # Definir el archivo de entrada (imagen a cifrar)
+    archivo_imagen = os.path.join(input_dir, "imagen_original.png")
 
-# Ejemplo de uso
-clave = get_random_bytes(32)  # Clave de 256 bits
+    # Verificar si la imagen existe en imagenes_a_cifrar
+    if not os.path.exists(archivo_imagen):
+        print(f"Error: The file '{archivo_imagen}' was not found in {input_dir}.")
+        print(f"Please move 'imagen_original.png' to {input_dir} and try again.")
+        exit(1)
 
-# Cifrar la imagen
-imagen_cifrada = cifrar_imagen(archivo_imagen, clave)
+    # Ejemplo de uso
+    clave = get_random_bytes(32)  # Clave de 256 bits
 
-# Guardar la imagen cifrada en la carpeta imagenes_cifradas
-encrypted_file_path = os.path.join(output_dir, "imagen_cifrada.enc")
-try:
-    with open(encrypted_file_path, 'wb') as f:
-        f.write(imagen_cifrada)
-    print(f"Encrypted image saved to: {encrypted_file_path}")
-except Exception as e:
-    print(f"Error saving encrypted image: {e}")
+    # Cifrar la imagen
+    imagen_cifrada = cifrar_imagen(archivo_imagen, clave)
 
-# Leer la imagen cifrada y descifrarla
-with open(encrypted_file_path, 'rb') as f:
-    archivo_cifrado = f.read()
+    # Guardar la imagen cifrada en la carpeta imagenes_cifradas
+    encrypted_file_path = os.path.join(output_dir, "imagen_cifrada.enc")
+    try:
+        with open(encrypted_file_path, 'wb') as f:
+            f.write(imagen_cifrada)
+        print(f"Encrypted image saved to: {encrypted_file_path}")
+    except Exception as e:
+        print(f"Error saving encrypted image: {e}")
 
-imagen_descifrada = descifrar_imagen(archivo_cifrado, clave)
+    # Leer la imagen cifrada y descifrarla
+    with open(encrypted_file_path, 'rb') as f:
+        archivo_cifrado = f.read()
 
-# Guardar la imagen descifrada en la carpeta imagenes_cifradas
-decrypted_file_path = os.path.join(output_dir, "imagen_descifrada.png")
-try:
-    with open(decrypted_file_path, 'wb') as f:
-        f.write(imagen_descifrada)
-    print(f"Decrypted image saved to: {decrypted_file_path}")
-except Exception as e:
-    print(f"Error saving decrypted image: {e}")
+    imagen_descifrada = descifrar_imagen(archivo_cifrado, clave)
+
+    # Guardar la imagen descifrada en la carpeta imagenes_cifradas
+    decrypted_file_path = os.path.join(dechipher_dir, "imagen_descifrada.png")
+    try:
+        with open(decrypted_file_path, 'wb') as f:
+            f.write(imagen_descifrada)
+        print(f"Decrypted image saved to: {decrypted_file_path}")
+    except Exception as e:
+        print(f"Error saving decrypted image: {e}")
